@@ -6,7 +6,7 @@ import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 import tokenManager from './tokenManager';
 import { config as appConfig } from '../../lib/config';
 
-const axiosServices = axios.create({ baseURL: appConfig.NEXT_PUBLIC_API_SERVER || 'https://issuetrackerapi.excellencekits.com' });
+const axiosServices = axios.create({ baseURL: appConfig.NEXT_PUBLIC_API_SERVER || 'https://notification-stg.excellencekits.com/notification-service' });
 
 // Attach generic auth error interceptor
 
