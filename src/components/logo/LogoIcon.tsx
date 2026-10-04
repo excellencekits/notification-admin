@@ -1,0 +1,31 @@
+// material-ui
+
+/**
+ * if you want to use image instead of <svg> uncomment following.
+ *
+ * import { useColorScheme } from '@mui/material/styles';
+ * const logoIconDark = '/assets/images/logo-icon-dark.svg';
+ * const logoIcon = '/assets/images/logo-icon.svg';
+ * import { ThemeMode } from 'config';
+ */
+
+// ==============================|| LOGO ICON SVG ||============================== //
+
+export default function LogoIcon() {
+  // const { colorScheme } = useColorScheme();
+
+  return (
+    /**
+     * if you want to use image instead of svg uncomment following, and comment out <svg> element.
+     *
+     * <Image src={colorScheme === ThemeMode.DARK ? logoIconDark : logoIcon} alt="Mantis" width={129} height={129} />
+     *
+     */
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 411.87 377.3" fill="white">
+      <circle cx="175.81" cy="340.39" r="36.92" />
+      <circle cx="318.21" cy="340.39" r="36.92" />
+      <path d="M394.13,51.5H98.87l-3.4-12.87-7.22-27.28c-1.77-6.69-7.82-11.35-14.74-11.35H17.32C7.75,0,0,7.75,0,17.32v3.99c0,9.56,7.75,17.32,17.32,17.32h39.93l3.4,12.87,49.25,186.09,4.65,17.55,10.23,38.62h221.96c10.66,0,19.31-8.64,19.31-19.31h0c0-10.66-8.64-19.31-19.31-19.31h-193.97l-4.65-17.55h188.43c18.48,0,34.64-12.44,39.37-30.31l35.34-133.51c2.98-11.25-5.5-22.27-17.14-22.27ZM281.29,87.86c11.6,0,21.01,9.4,21.01,21.01s-9.4,21.01-21.01,21.01-21.01-9.4-21.01-21.01,9.4-21.01,21.01-21.01ZM211.89,87.86c11.6,0,21.01,9.4,21.01,21.01s-9.4,21.01-21.01,21.01-21.01-9.4-21.01-21.01,9.4-21.01,21.01-21.01ZM325.23,159.98c-5.08,6.17-32.71,36.92-78.22,36.92s-73.15-30.76-78.22-36.93c-3.19-3.88-2.64-9.61,1.24-12.8,3.88-3.19,9.61-2.64,12.8,1.24,4.16,5.06,26.83,30.3,64.18,30.3s60.01-25.24,64.18-30.3c3.19-3.88,8.93-4.43,12.8-1.24,3.88,3.19,4.43,8.92,1.24,12.8Z" />
+    </svg>
+  );
+}
