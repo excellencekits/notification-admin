@@ -69,10 +69,11 @@ export default function NotificationsPage() {
       setLoading(true);
       setError(null);
       const data = await getNotifications();
-      setNotifications(data);
+      setNotifications(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error('Failed to load notifications:', err);
       setError('Failed to fetch notification types from backend service.');
+      setNotifications([]);
     } finally {
       setLoading(false);
     }
@@ -108,7 +109,7 @@ export default function NotificationsPage() {
     if (confirm('Are you sure you want to delete this notification type and all its associated templates?')) {
       try {
         await deleteNotification(id);
-        setNotifications((prev) => prev.filter((n) => n.id !== id));
+        setNotifications((prev) => (Array.isArray(prev) ? prev.filter((n) => n?.id !== id) : []));
       } catch (err: any) {
         alert('Failed to delete notification type: ' + err.message);
       }
@@ -126,10 +127,10 @@ export default function NotificationsPage() {
       setSubmitting(true);
       if (editingItem && editingItem.id) {
         const updated = await updateNotification(editingItem.id, formData);
-        setNotifications((prev) => prev.map((n) => (n.id === editingItem.id ? updated : n)));
+        setNotifications((prev) => (Array.isArray(prev) ? prev.map((n) => (n?.id === editingItem.id ? updated : n)) : [updated]));
       } else {
         const created = await createNotification(formData);
-        setNotifications((prev) => [...prev, created]);
+        setNotifications((prev) => (Array.isArray(prev) ? [...prev, created] : [created]));
       }
       setOpenDialog(false);
     } catch (err: any) {
@@ -139,11 +140,19 @@ export default function NotificationsPage() {
     }
   };
 
-  const filteredNotifications = notifications.filter((item) => {
+  const safeNotifications = Array.isArray(notifications) ? notifications : [];
+
+  const filteredNotifications = safeNotifications.filter((item) => {
+    if (!item) return false;
+    const typeStr = (item.type || '').toLowerCase();
+    const subjectStr = (item.subject || '').toLowerCase();
+    const descStr = (item.description || '').toLowerCase();
+    const search = (searchTerm || '').toLowerCase();
+
     const matchesSearch =
-      item.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
+      typeStr.includes(search) ||
+      subjectStr.includes(search) ||
+      descStr.includes(search);
     const matchesApp = selectedApp === 'ALL' || item.applicationId === selectedApp;
     return matchesSearch && matchesApp;
   });
@@ -178,7 +187,7 @@ export default function NotificationsPage() {
 
       <MainCard content={false}>
         {/* Filters */}
-        <Box sx={{ p: 2, borderBottom: '1px solid #f0f0f0' }}>
+        <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
             <TextField
               size="small"

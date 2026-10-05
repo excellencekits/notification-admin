@@ -60,13 +60,15 @@ export default function TestSendPage() {
       try {
         setLoading(true);
         const data = await getNotifications();
-        setNotifications(data);
-        if (data.length > 0) {
-          setSelectedType(data[0].type);
-          setTargetApp(data[0].applicationId || 'E-COMMERCE');
+        const safeData = Array.isArray(data) ? data : [];
+        setNotifications(safeData);
+        if (safeData.length > 0) {
+          setSelectedType(safeData[0].type);
+          setTargetApp(safeData[0].applicationId || 'E-COMMERCE');
         }
       } catch (err: any) {
         console.error('Failed to load notification types:', err);
+        setNotifications([]);
       } finally {
         setLoading(false);
       }
@@ -76,7 +78,8 @@ export default function TestSendPage() {
 
   const handleTypeChange = (typeStr: string) => {
     setSelectedType(typeStr);
-    const found = notifications.find((n) => n.type === typeStr);
+    const safeList = Array.isArray(notifications) ? notifications : [];
+    const found = safeList.find((n) => n?.type === typeStr);
     if (found?.applicationId) {
       setTargetApp(found.applicationId);
     }
@@ -157,7 +160,7 @@ export default function TestSendPage() {
                       {loading ? (
                         <MenuItem value="">Loading types...</MenuItem>
                       ) : (
-                        notifications.map((n) => (
+                        (Array.isArray(notifications) ? notifications : []).map((n) => (
                           <MenuItem key={n.id} value={n.type}>
                             {n.type} — {n.subject}
                           </MenuItem>

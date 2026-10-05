@@ -8,6 +8,15 @@ import {
   PublishRequest
 } from '../../types/notification';
 
+const ensureArray = <T>(data: any): T[] => {
+  if (!data) return [];
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data.content)) return data.content;
+  if (Array.isArray(data.data)) return data.data;
+  if (Array.isArray(data.result)) return data.result;
+  return [];
+};
+
 export const getDashboardStats = async (): Promise<DashboardStats> => {
   const res = await notificationClient.get('/admin/stats');
   return res.data;
@@ -16,7 +25,7 @@ export const getDashboardStats = async (): Promise<DashboardStats> => {
 // Notification Types
 export const getNotifications = async (): Promise<NotificationType[]> => {
   const res = await notificationClient.get('/admin/notifications');
-  return res.data;
+  return ensureArray<NotificationType>(res.data);
 };
 
 export const getNotificationById = async (id: number): Promise<NotificationType> => {
@@ -41,12 +50,12 @@ export const deleteNotification = async (id: number): Promise<void> => {
 // Templates
 export const getTemplates = async (): Promise<NotificationTemplate[]> => {
   const res = await notificationClient.get('/admin/templates');
-  return res.data;
+  return ensureArray<NotificationTemplate>(res.data);
 };
 
 export const getTemplatesByNotification = async (notificationId: number): Promise<NotificationTemplate[]> => {
   const res = await notificationClient.get(`/admin/templates/by-notification/${notificationId}`);
-  return res.data;
+  return ensureArray<NotificationTemplate>(res.data);
 };
 
 export const createTemplate = async (data: Partial<NotificationTemplate>): Promise<NotificationTemplate> => {
@@ -66,7 +75,7 @@ export const deleteTemplate = async (id: number): Promise<void> => {
 // Service Providers
 export const getProviders = async (): Promise<ServiceProvider[]> => {
   const res = await notificationClient.get('/admin/providers');
-  return res.data;
+  return ensureArray<ServiceProvider>(res.data);
 };
 
 export const createProvider = async (data: Partial<ServiceProvider>): Promise<ServiceProvider> => {
@@ -96,7 +105,14 @@ export const getMessages = async (page = 0, size = 15, app?: string): Promise<Me
   const params: Record<string, any> = { page, size };
   if (app) params.app = app;
   const res = await notificationClient.get('/admin/messages', { params });
-  return res.data;
+  const raw = res.data;
+  return {
+    content: ensureArray<MessageEntity>(raw?.content ?? raw),
+    totalElements: raw?.totalElements ?? 0,
+    totalPages: raw?.totalPages ?? 0,
+    size: raw?.size ?? size,
+    number: raw?.number ?? page
+  };
 };
 
 // Publish / Test Dispatch

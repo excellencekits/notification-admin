@@ -85,14 +85,16 @@ function TemplatesContent() {
       setLoading(true);
       setError(null);
       const [tList, nList] = await Promise.all([getTemplates(), getNotifications()]);
-      setTemplates(tList);
-      setNotifications(nList);
+      setTemplates(Array.isArray(tList) ? tList : []);
+      setNotifications(Array.isArray(nList) ? nList : []);
       if (initialNotifId) {
         setSelectedNotifFilter(initialNotifId);
       }
     } catch (err: any) {
       console.error('Failed to load templates:', err);
       setError('Failed to fetch templates from backend service.');
+      setTemplates([]);
+      setNotifications([]);
     } finally {
       setLoading(false);
     }
@@ -104,8 +106,9 @@ function TemplatesContent() {
 
   const handleOpenCreate = () => {
     setEditingItem(null);
+    const safeNotifs = Array.isArray(notifications) ? notifications : [];
     setFormData({
-      notificationId: notifications.length > 0 ? (notifications[0].id || 0) : 0,
+      notificationId: safeNotifs.length > 0 ? (safeNotifs[0].id || 0) : 0,
       channel: 'EMAIL',
       content: 'Hello {customerName},\n\nYour notification content goes here.',
       fromEmail: 'support@bsmamart.com',
@@ -134,7 +137,7 @@ function TemplatesContent() {
     if (confirm('Are you sure you want to delete this template?')) {
       try {
         await deleteTemplate(id);
-        setTemplates((prev) => prev.filter((t) => t.id !== id));
+        setTemplates((prev) => (Array.isArray(prev) ? prev.filter((t) => t?.id !== id) : []));
       } catch (err: any) {
         alert('Failed to delete template: ' + err.message);
       }
@@ -148,7 +151,7 @@ function TemplatesContent() {
         ...item,
         active: !item.active
       });
-      setTemplates((prev) => prev.map((t) => (t.id === item.id ? updated : t)));
+      setTemplates((prev) => (Array.isArray(prev) ? prev.map((t) => (t?.id === item.id ? updated : t)) : []));
     } catch (err: any) {
       alert('Failed to update active state: ' + err.message);
     }
@@ -163,7 +166,8 @@ function TemplatesContent() {
 
     try {
       setSubmitting(true);
-      const selectedNotif = notifications.find((n) => n.id === Number(formData.notificationId));
+      const safeNotifs = Array.isArray(notifications) ? notifications : [];
+      const selectedNotif = safeNotifs.find((n) => n?.id === Number(formData.notificationId));
       const payload: Partial<NotificationTemplate> = {
         channel: formData.channel,
         content: formData.content,
@@ -175,10 +179,10 @@ function TemplatesContent() {
 
       if (editingItem && editingItem.id) {
         const updated = await updateTemplate(editingItem.id, payload);
-        setTemplates((prev) => prev.map((t) => (t.id === editingItem.id ? updated : t)));
+        setTemplates((prev) => (Array.isArray(prev) ? prev.map((t) => (t?.id === editingItem.id ? updated : t)) : [updated]));
       } else {
         const created = await createTemplate(payload);
-        setTemplates((prev) => [...prev, created]);
+        setTemplates((prev) => (Array.isArray(prev) ? [...prev, created] : [created]));
       }
       setOpenDialog(false);
     } catch (err: any) {
@@ -189,7 +193,9 @@ function TemplatesContent() {
   };
 
   const filteredTemplates = useMemo(() => {
-    return templates.filter((t) => {
+    const list = Array.isArray(templates) ? templates : [];
+    return list.filter((t) => {
+      if (!t) return false;
       const matchChannel = selectedChannel === 'ALL' || t.channel === selectedChannel;
       const matchNotif =
         selectedNotifFilter === 'ALL' || String(t.notification?.id) === selectedNotifFilter;
@@ -247,8 +253,8 @@ function TemplatesContent() {
               onChange={(e) => setSelectedNotifFilter(e.target.value)}
               sx={{ width: { xs: '100%', sm: 320 } }}
             >
-              <MenuItem value="ALL">All Notification Types ({notifications.length})</MenuItem>
-              {notifications.map((n) => (
+              <MenuItem value="ALL">All Notification Types ({Array.isArray(notifications) ? notifications.length : 0})</MenuItem>
+              {(Array.isArray(notifications) ? notifications : []).map((n) => (
                 <MenuItem key={n.id} value={String(n.id)}>
                   {n.type} ({n.subject})
                 </MenuItem>
@@ -419,7 +425,7 @@ function TemplatesContent() {
                     value={formData.notificationId}
                     onChange={(e) => setFormData({ ...formData, notificationId: Number(e.target.value) })}
                   >
-                    {notifications.map((n) => (
+                    {(Array.isArray(notifications) ? notifications : []).map((n) => (
                       <MenuItem key={n.id} value={n.id}>
                         {n.type} ({n.subject}) - [{n.applicationId}]
                       </MenuItem>

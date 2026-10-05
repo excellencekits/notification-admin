@@ -391,7 +391,7 @@ export default function NotificationDashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {stats?.recentMessages && stats.recentMessages.length > 0 ? (
+              {Array.isArray(stats?.recentMessages) && stats.recentMessages.length > 0 ? (
                 stats.recentMessages.map((msg) => (
                   <TableRow key={msg.id} hover>
                     <TableCell>#{msg.id}</TableCell>

@@ -68,10 +68,11 @@ export default function ProvidersPage() {
       setLoading(true);
       setError(null);
       const data = await getProviders();
-      setProviders(data);
+      setProviders(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error('Failed to load service providers:', err);
       setError('Failed to fetch service providers from backend service.');
+      setProviders([]);
     } finally {
       setLoading(false);
     }
@@ -117,7 +118,7 @@ export default function ProvidersPage() {
     if (confirm(`Are you sure you want to delete service provider ${id}?`)) {
       try {
         await deleteProvider(id);
-        setProviders((prev) => prev.filter((p) => p.id !== id));
+        setProviders((prev) => (Array.isArray(prev) ? prev.filter((p) => p?.id !== id) : []));
       } catch (err: any) {
         alert('Failed to delete service provider: ' + err.message);
       }
@@ -130,7 +131,7 @@ export default function ProvidersPage() {
         ...item,
         active: !item.active
       });
-      setProviders((prev) => prev.map((p) => (p.id === item.id ? updated : p)));
+      setProviders((prev) => (Array.isArray(prev) ? prev.map((p) => (p?.id === item.id ? updated : p)) : []));
     } catch (err: any) {
       alert('Failed to update active state: ' + err.message);
     }
@@ -147,10 +148,10 @@ export default function ProvidersPage() {
       setSubmitting(true);
       if (editingItem) {
         const updated = await updateProvider(editingItem.id, formData);
-        setProviders((prev) => prev.map((p) => (p.id === editingItem.id ? updated : p)));
+        setProviders((prev) => (Array.isArray(prev) ? prev.map((p) => (p?.id === editingItem.id ? updated : p)) : [updated]));
       } else {
         const created = await createProvider(formData);
-        setProviders((prev) => [...prev, created]);
+        setProviders((prev) => (Array.isArray(prev) ? [...prev, created] : [created]));
       }
       setOpenDialog(false);
     } catch (err: any) {
@@ -194,7 +195,7 @@ export default function ProvidersPage() {
         </Box>
       ) : (
         <Grid container spacing={3}>
-          {providers.map((p) => (
+          {(Array.isArray(providers) ? providers : []).map((p) => (
             <Grid size={{ xs: 12, md: 6 }} key={p.id}>
               <MainCard
                 sx={{

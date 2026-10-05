@@ -49,10 +49,11 @@ export default function MessageLogsPage() {
       setLoading(true);
       setError(null);
       const res = await getMessages(currentPage, currentSize);
-      setData(res);
+      setData(res && typeof res === 'object' && Array.isArray(res.content) ? res : { content: [], totalElements: 0, totalPages: 0, size: currentSize, number: currentPage });
     } catch (err: any) {
       console.error('Failed to load message logs:', err);
       setError('Failed to fetch message logs from backend service.');
+      setData({ content: [], totalElements: 0, totalPages: 0, size: currentSize, number: currentPage });
     } finally {
       setLoading(false);
     }
@@ -121,7 +122,7 @@ export default function MessageLogsPage() {
                     <CircularProgress size={32} />
                   </TableCell>
                 </TableRow>
-              ) : data?.content && data.content.length > 0 ? (
+              ) : Array.isArray(data?.content) && data.content.length > 0 ? (
                 data.content.map((row) => (
                   <TableRow key={row.id} hover>
                     <TableCell>#{row.id}</TableCell>
