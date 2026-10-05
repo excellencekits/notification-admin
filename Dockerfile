@@ -6,8 +6,8 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on package-lock.json
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json package-lock.json* .npmrc* ./
+RUN npm ci --legacy-peer-deps
 
 # 2. Rebuild the source code only when needed
 FROM base AS builder
@@ -19,7 +19,13 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-RUN npm run build
+RUN sh -c "npm run build & \
+  pid=\$!; \
+  while kill -0 \$pid 2>/dev/null; do \
+    echo 'Next.js build in progress...'; \
+    sleep 30; \
+  done; \
+  wait \$pid"
 
 # 3. Production runner image
 FROM base AS runner
