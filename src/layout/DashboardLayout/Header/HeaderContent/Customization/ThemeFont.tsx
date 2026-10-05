@@ -10,19 +10,16 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-// third-party
-import { Inter, Poppins, Public_Sans, Roboto } from 'next/font/google';
-
 // project imports
 import MainCard from 'components/MainCard';
 import useConfig from 'hooks/useConfig';
-
 import { FontFamily } from 'types/config';
 
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
-const roboto = Roboto({ subsets: ['latin'], weight: ['300', '400', '500', '700'] });
-const poppins = Poppins({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
-const publicSans = Public_Sans({ subsets: ['latin'], weight: ['400', '500', '300', '700'] });
+// font definitions
+const inter = { style: { fontFamily: `'Inter', sans-serif` } };
+const roboto = { style: { fontFamily: `'Roboto', sans-serif` } };
+const poppins = { style: { fontFamily: `'Poppins', sans-serif` } };
+const publicSans = { style: { fontFamily: `'Public Sans', sans-serif` } };
 
 // ==============================|| CUSTOMIZATION - FONT FAMILY ||============================== //
 

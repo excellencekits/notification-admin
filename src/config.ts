@@ -1,8 +1,12 @@
-// next
-import { Public_Sans } from 'next/font/google';
-
 // types
 import { ConfigStates } from 'types/config';
+
+// font definition
+const publicSans = {
+  style: {
+    fontFamily: `'Public Sans', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial`
+  }
+};
 
 // ==============================|| THEME CONSTANT ||============================== //
 
@@ -16,8 +20,6 @@ export const DRAWER_WIDTH = 260;
 export const MINI_DRAWER_WIDTH = 60;
 
 export const CSS_VAR_PREFIX = '';
-
-const publicSans = Public_Sans({ subsets: ['latin'], weight: ['400', '500', '300', '600', '700'] });
 
 export enum SimpleLayoutType {
   SIMPLE = 'simple',
