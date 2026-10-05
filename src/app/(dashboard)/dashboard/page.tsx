@@ -19,6 +19,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
+import { alpha, useTheme } from '@mui/material/styles';
 
 // assets
 import BellOutlined from '@ant-design/icons/BellOutlined';
@@ -36,6 +37,7 @@ import { getDashboardStats } from '../../../api/notification';
 import { DashboardStats } from '../../../types/notification';
 
 export default function NotificationDashboard() {
+  const theme = useTheme();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -111,84 +113,84 @@ export default function NotificationDashboard() {
       {/* Metrics Row */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MainCard content={false} sx={{ p: 2.5, borderLeft: '4px solid #1890ff', height: '100%' }}>
+          <MainCard content={false} sx={{ p: 2.5, borderLeft: `4px solid ${theme.palette.primary.main}`, height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
                 <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase' }}>
                   Notification Types
                 </Typography>
-                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }}>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }} color="text.primary">
                   {loading ? <CircularProgress size={24} /> : stats?.totalNotifications ?? 0}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   Active events registered
                 </Typography>
               </Box>
-              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: '#e6f7ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <BellOutlined style={{ fontSize: 22, color: '#1890ff' }} />
+              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: alpha(theme.palette.primary.main, 0.12), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <BellOutlined style={{ fontSize: 22, color: theme.palette.primary.main }} />
               </Box>
             </Stack>
           </MainCard>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MainCard content={false} sx={{ p: 2.5, borderLeft: '4px solid #52c41a', height: '100%' }}>
+          <MainCard content={false} sx={{ p: 2.5, borderLeft: `4px solid ${theme.palette.success.main}`, height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
                 <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase' }}>
                   Message Templates
                 </Typography>
-                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }}>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }} color="text.primary">
                   {loading ? <CircularProgress size={24} /> : stats?.totalTemplates ?? 0}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   Across Email & Push
                 </Typography>
               </Box>
-              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: '#f6ffed', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FileTextOutlined style={{ fontSize: 22, color: '#52c41a' }} />
+              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: alpha(theme.palette.success.main, 0.12), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FileTextOutlined style={{ fontSize: 22, color: theme.palette.success.main }} />
               </Box>
             </Stack>
           </MainCard>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MainCard content={false} sx={{ p: 2.5, borderLeft: '4px solid #722ed1', height: '100%' }}>
+          <MainCard content={false} sx={{ p: 2.5, borderLeft: `4px solid ${theme.palette.secondary.main}`, height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
                 <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase' }}>
                   Service Providers
                 </Typography>
-                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }}>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }} color="text.primary">
                   {loading ? <CircularProgress size={24} /> : stats?.totalProviders ?? 0}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   SMTP & Push Relays
                 </Typography>
               </Box>
-              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: '#f9f0ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <CloudServerOutlined style={{ fontSize: 22, color: '#722ed1' }} />
+              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: alpha(theme.palette.secondary.main, 0.12), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CloudServerOutlined style={{ fontSize: 22, color: theme.palette.secondary.main }} />
               </Box>
             </Stack>
           </MainCard>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-          <MainCard content={false} sx={{ p: 2.5, borderLeft: '4px solid #fa8c16', height: '100%' }}>
+          <MainCard content={false} sx={{ p: 2.5, borderLeft: `4px solid ${theme.palette.warning.main}`, height: '100%' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
                 <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase' }}>
                   Dispatched Logs
                 </Typography>
-                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }}>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5 }} color="text.primary">
                   {loading ? <CircularProgress size={24} /> : stats?.totalMessages ?? 0}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   Recorded in Audit Feed
                 </Typography>
               </Box>
-              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: '#fff7e6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <SendOutlined style={{ fontSize: 22, color: '#fa8c16' }} />
+              <Box sx={{ width: 48, height: 48, borderRadius: '50%', bgcolor: alpha(theme.palette.warning.main, 0.12), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <SendOutlined style={{ fontSize: 22, color: theme.palette.warning.main }} />
               </Box>
             </Stack>
           </MainCard>
@@ -205,9 +207,23 @@ export default function NotificationDashboard() {
           }>
             <Grid container spacing={2}>
               <Grid size={{ xs: 12, sm: 4 }}>
-                <Card variant="outlined" sx={{ p: 2, textAlign: 'center', bgcolor: '#fbfbfb' }}>
-                  <MailOutlined style={{ fontSize: 28, color: '#1890ff', marginBottom: 8 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    textAlign: 'center',
+                    bgcolor: 'background.default',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: 1.5,
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      boxShadow: theme.shadows[1]
+                    }
+                  }}
+                >
+                  <MailOutlined style={{ fontSize: 28, color: theme.palette.primary.main, marginBottom: 8 }} />
+                  <Typography variant="h5" sx={{ fontWeight: 700 }} color="text.primary">
                     {stats?.channelBreakdown?.EMAIL ?? 0}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
@@ -220,9 +236,23 @@ export default function NotificationDashboard() {
               </Grid>
 
               <Grid size={{ xs: 12, sm: 4 }}>
-                <Card variant="outlined" sx={{ p: 2, textAlign: 'center', bgcolor: '#fbfbfb' }}>
-                  <MobileOutlined style={{ fontSize: 28, color: '#52c41a', marginBottom: 8 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    textAlign: 'center',
+                    bgcolor: 'background.default',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: 1.5,
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      boxShadow: theme.shadows[1]
+                    }
+                  }}
+                >
+                  <MobileOutlined style={{ fontSize: 28, color: theme.palette.success.main, marginBottom: 8 }} />
+                  <Typography variant="h5" sx={{ fontWeight: 700 }} color="text.primary">
                     {stats?.channelBreakdown?.FCM ?? 0}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
@@ -235,9 +265,23 @@ export default function NotificationDashboard() {
               </Grid>
 
               <Grid size={{ xs: 12, sm: 4 }}>
-                <Card variant="outlined" sx={{ p: 2, textAlign: 'center', bgcolor: '#fbfbfb' }}>
-                  <SendOutlined style={{ fontSize: 28, color: '#faad14', marginBottom: 8 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    textAlign: 'center',
+                    bgcolor: 'background.default',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: 1.5,
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      boxShadow: theme.shadows[1]
+                    }
+                  }}
+                >
+                  <SendOutlined style={{ fontSize: 28, color: theme.palette.warning.main, marginBottom: 8 }} />
+                  <Typography variant="h5" sx={{ fontWeight: 700 }} color="text.primary">
                     {stats?.channelBreakdown?.SMS ?? 0}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
@@ -255,33 +299,66 @@ export default function NotificationDashboard() {
         <Grid size={{ xs: 12, md: 5 }}>
           <MainCard title="System Readiness & Relays">
             <Stack spacing={2}>
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 1.5, bgcolor: '#f9f9f9', borderRadius: 1.5 }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{
+                  p: 1.5,
+                  bgcolor: 'background.default',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1.5
+                }}
+              >
                 <Stack direction="row" spacing={1.5} alignItems="center">
-                  <CheckCircleOutlined style={{ color: '#52c41a', fontSize: 18 }} />
+                  <CheckCircleOutlined style={{ color: theme.palette.success.main, fontSize: 18 }} />
                   <Box>
-                    <Typography variant="subtitle2">Google Workspace SMTP</Typography>
+                    <Typography variant="subtitle2" color="text.primary">Google Workspace SMTP</Typography>
                     <Typography variant="caption" color="text.secondary">smtp.gmail.com:587 (TLS Active)</Typography>
                   </Box>
                 </Stack>
                 <Chip label="Online" color="success" size="small" />
               </Stack>
 
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 1.5, bgcolor: '#f9f9f9', borderRadius: 1.5 }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{
+                  p: 1.5,
+                  bgcolor: 'background.default',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1.5
+                }}
+              >
                 <Stack direction="row" spacing={1.5} alignItems="center">
-                  <CheckCircleOutlined style={{ color: '#52c41a', fontSize: 18 }} />
+                  <CheckCircleOutlined style={{ color: theme.palette.success.main, fontSize: 18 }} />
                   <Box>
-                    <Typography variant="subtitle2">Firebase Admin SDK</Typography>
+                    <Typography variant="subtitle2" color="text.primary">Firebase Admin SDK</Typography>
                     <Typography variant="caption" color="text.secondary">Push Notifications Engine</Typography>
                   </Box>
                 </Stack>
                 <Chip label="Connected" color="success" size="small" />
               </Stack>
 
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 1.5, bgcolor: '#f9f9f9', borderRadius: 1.5 }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{
+                  p: 1.5,
+                  bgcolor: 'background.default',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  borderRadius: 1.5
+                }}
+              >
                 <Stack direction="row" spacing={1.5} alignItems="center">
-                  <CheckCircleOutlined style={{ color: '#52c41a', fontSize: 18 }} />
+                  <CheckCircleOutlined style={{ color: theme.palette.success.main, fontSize: 18 }} />
                   <Box>
-                    <Typography variant="subtitle2">DKIM & SPF Authentication</Typography>
+                    <Typography variant="subtitle2" color="text.primary">DKIM & SPF Authentication</Typography>
                     <Typography variant="caption" color="text.secondary">bsmamart.com verified</Typography>
                   </Box>
                 </Stack>

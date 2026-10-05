@@ -237,7 +237,7 @@ function TemplatesContent() {
         </Box>
 
         {/* Filter Toolbar */}
-        <Box sx={{ p: 2, bgcolor: '#fafafa', borderBottom: '1px solid #f0f0f0' }}>
+        <Box sx={{ p: 2, bgcolor: 'background.default', borderBottom: '1px solid', borderColor: 'divider' }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <TextField
               select
@@ -372,16 +372,23 @@ function TemplatesContent() {
               <code>{previewItem?.fromEmail || 'Default'}</code>
             </Typography>
           </Box>
-          <Paper variant="outlined" sx={{ p: 2, minHeight: 250, bgcolor: '#ffffff' }}>
+          <Paper variant="outlined" sx={{ p: 2, minHeight: 250, bgcolor: 'background.default', borderColor: 'divider' }}>
             {previewItem?.channel === 'EMAIL' && previewItem.content?.includes('<') ? (
-              <div
+              <Box
+                sx={{
+                  bgcolor: '#ffffff',
+                  color: '#1f2937',
+                  p: 2,
+                  borderRadius: 1,
+                  border: '1px solid #e5e7eb'
+                }}
                 dangerouslySetInnerHTML={{
                   __html: previewItem.content
-                    .replace(/\{(\w+)\}/g, '<span style="background:#fff3cd;padding:2px 4px;border-radius:3px;">{$1}</span>')
+                    .replace(/\{(\w+)\}/g, '<span style="background:#fff3cd;color:#856404;padding:2px 4px;border-radius:3px;">{$1}</span>')
                 }}
               />
             ) : (
-              <Typography sx={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>
+              <Typography sx={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }} color="text.primary">
                 {previewItem?.content}
               </Typography>
             )}
@@ -500,15 +507,22 @@ function TemplatesContent() {
                     </Stack>
                   </Box>
                 ) : (
-                  <Paper variant="outlined" sx={{ p: 2, minHeight: 280, bgcolor: '#ffffff' }}>
+                  <Paper variant="outlined" sx={{ p: 2, minHeight: 280, bgcolor: 'background.default', borderColor: 'divider' }}>
                     {formData.channel === 'EMAIL' && formData.content.includes('<') ? (
-                      <div
+                      <Box
+                        sx={{
+                          bgcolor: '#ffffff',
+                          color: '#1f2937',
+                          p: 2,
+                          borderRadius: 1,
+                          border: '1px solid #e5e7eb'
+                        }}
                         dangerouslySetInnerHTML={{
                           __html: formData.content.replace(/\{(\w+)\}/g, '<mark>{$1}</mark>')
                         }}
                       />
                     ) : (
-                      <Typography sx={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>
+                      <Typography sx={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }} color="text.primary">
                         {formData.content}
                       </Typography>
                     )}

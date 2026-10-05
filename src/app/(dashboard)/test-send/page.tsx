@@ -262,8 +262,8 @@ export default function TestSendPage() {
         <Grid size={{ xs: 12, md: 5 }}>
           <MainCard title="Sandbox Guide & Tips">
             <Stack spacing={2.5}>
-              <Card variant="outlined" sx={{ p: 2, bgcolor: '#fbfbfb' }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#1890ff', mb: 0.5 }}>
+              <Card variant="outlined" sx={{ p: 2, bgcolor: 'background.default', borderColor: 'divider', borderRadius: 1.5 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'primary.main', mb: 0.5 }}>
                   Multi-Channel Broadcast
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -273,8 +273,8 @@ export default function TestSendPage() {
                 </Typography>
               </Card>
 
-              <Card variant="outlined" sx={{ p: 2, bgcolor: '#fbfbfb' }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#52c41a', mb: 0.5 }}>
+              <Card variant="outlined" sx={{ p: 2, bgcolor: 'background.default', borderColor: 'divider', borderRadius: 1.5 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'success.main', mb: 0.5 }}>
                   Placeholders Syntax
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -283,8 +283,8 @@ export default function TestSendPage() {
                 </Typography>
               </Card>
 
-              <Card variant="outlined" sx={{ p: 2, bgcolor: '#fbfbfb' }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#722ed1', mb: 0.5 }}>
+              <Card variant="outlined" sx={{ p: 2, bgcolor: 'background.default', borderColor: 'divider', borderRadius: 1.5 }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'secondary.main', mb: 0.5 }}>
                   Email Deliverability Notice
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
